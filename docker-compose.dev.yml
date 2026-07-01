@@ -1,15 +1,11 @@
-version: "3.9"
-
 services:
-
   frontend:
     build:
       context: ./frontend
     container_name: inventory-frontend-dev
-    expose:
-      - "80"
     ports:
-      - "3001:80"
+      - "8080:80"
+    restart: unless-stopped
 
   backend:
     build:
@@ -19,6 +15,7 @@ services:
       - "5001:5000"
     env_file:
       - ./backend/.env
+    restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
@@ -31,6 +28,7 @@ services:
       - "5433:5432"
     volumes:
       - postgres_dev_data:/var/lib/postgresql/data
+    restart: unless-stopped
 
 volumes:
   postgres_dev_data:
