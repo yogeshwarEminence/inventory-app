@@ -1,0 +1,48 @@
+2026-07-01 08:19:46 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-01 08:19:46 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-01 08:19:46 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-01 08:19:46 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-01 08:20:04 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-01 08:20:04 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-01 08:20:04 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-01 08:20:04 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-01 08:20:07 | INFO     | __main__ | GET /api/health -> 200 (0.1ms)
+2026-07-01 08:20:12 | INFO     | services.auth_service | User logged in: admin@inventory.local
+2026-07-01 08:20:12 | INFO     | __main__ | POST /api/auth/login -> 200 (239.1ms)
+2026-07-01 08:20:12 | INFO     | __main__ | GET /api/auth/me -> 200 (0.3ms)
+2026-07-01 08:20:12 | INFO     | services.auth_service | New user registered: testuser@example.com (role=staff)
+2026-07-01 08:20:12 | INFO     | __main__ | POST /api/auth/register -> 201 (139.8ms)
+2026-07-01 08:20:12 | INFO     | __main__ | GET /api/categories -> 200 (9.3ms)
+2026-07-01 08:20:20 | INFO     | services.auth_service | User logged in: admin@inventory.local
+2026-07-01 08:20:20 | INFO     | __main__ | POST /api/auth/login -> 200 (143.3ms)
+2026-07-01 08:20:20 | INFO     | __main__ | GET /api/products -> 200 (29.8ms)
+2026-07-01 08:20:20 | INFO     | __main__ | GET /api/products -> 200 (24.3ms)
+2026-07-01 08:20:20 | INFO     | services.product_service | Product created: TST-001 - Test Widget
+2026-07-01 08:20:20 | INFO     | __main__ | POST /api/products -> 201 (26.5ms)
+2026-07-01 08:20:20 | INFO     | services.product_service | Stock adjusted for product id=9, delta=-5
+2026-07-01 08:20:20 | INFO     | __main__ | PATCH /api/products/9/stock -> 200 (24.3ms)
+2026-07-01 08:20:20 | INFO     | services.product_service | Product deactivated: id=9
+2026-07-01 08:20:20 | INFO     | __main__ | DELETE /api/products/9 -> 200 (16.5ms)
+2026-07-01 08:20:20 | INFO     | __main__ | GET /api/products/9 -> 200 (6.5ms)
+2026-07-01 08:20:31 | INFO     | services.auth_service | User logged in: admin@inventory.local
+2026-07-01 08:20:31 | INFO     | __main__ | POST /api/auth/login -> 200 (131.1ms)
+2026-07-01 08:20:31 | INFO     | __main__ | GET /api/customers -> 200 (24.6ms)
+2026-07-01 08:20:31 | INFO     | __main__ | GET /api/customers -> 200 (24.6ms)
+2026-07-01 08:20:31 | INFO     | __main__ | GET /api/products -> 200 (22.9ms)
+2026-07-01 08:20:31 | INFO     | __main__ | GET /api/products/8 -> 200 (10.4ms)
+2026-07-01 08:20:32 | INFO     | services.order_service | Order created: id=1 customer_id=3 items=1
+2026-07-01 08:20:32 | INFO     | __main__ | POST /api/orders -> 201 (37.5ms)
+2026-07-01 08:20:32 | INFO     | __main__ | GET /api/products/8 -> 200 (12.8ms)
+2026-07-01 08:20:32 | INFO     | __main__ | GET /api/orders/1 -> 200 (14.8ms)
+2026-07-01 08:20:32 | INFO     | services.order_service | Order id=1 status changed: pending -> processing
+2026-07-01 08:20:32 | INFO     | __main__ | PATCH /api/orders/1/status -> 200 (24.3ms)
+2026-07-01 08:20:32 | INFO     | services.order_service | Order id=1 status changed: processing -> cancelled
+2026-07-01 08:20:32 | INFO     | __main__ | PATCH /api/orders/1/status -> 200 (32.1ms)
+2026-07-01 08:20:32 | INFO     | __main__ | GET /api/products/8 -> 200 (11.5ms)
+2026-07-01 08:20:32 | INFO     | __main__ | GET /api/dashboard/stats -> 200 (7.6ms)
+2026-07-01 08:20:37 | INFO     | __main__ | GET /api/products -> 401 (0.2ms)
+2026-07-01 08:20:37 | WARNING  | services.auth_service | Failed login attempt for email=admin@inventory.local
+2026-07-01 08:20:37 | INFO     | __main__ | POST /api/auth/login -> 401 (109.9ms)
+2026-07-01 08:20:38 | INFO     | services.auth_service | User logged in: admin@inventory.local
+2026-07-01 08:20:38 | INFO     | __main__ | POST /api/auth/login -> 200 (114.7ms)
+2026-07-01 08:20:38 | INFO     | __main__ | POST /api/products -> 409 (7.9ms)
