@@ -6,8 +6,8 @@ services:
     build:
       context: ./frontend
     container_name: inventory-frontend-prod
-    ports:
-      - "80:80"
+    expose:
+      - "80"
 
   backend:
     build:
