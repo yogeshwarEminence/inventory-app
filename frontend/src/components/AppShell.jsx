@@ -10,6 +10,9 @@ const NAV_ITEMS = [
   { to: "/orders", label: "📦 Orders", title: "Orders" },
 ];
 
+const APP_ENV = import.meta.env.VITE_APP_ENV === "production" ? "production" : "development";
+const ENV_LABEL = APP_ENV === "production" ? "PROD" : "DEV";
+
 export default function AppShell() {
   const { currentUser, logout } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,8 +23,10 @@ export default function AppShell() {
 
   return (
     <div className="app-shell">
-      <aside className={"sidebar" + (sidebarOpen ? " open" : "")}>
-        <div className="brand-mini">📦 InvenTrack</div>
+      <aside className={"sidebar sidebar-" + APP_ENV + (sidebarOpen ? " open" : "")}>
+        <div className="brand-mini">
+          📦 InvenTrack <span className={"env-badge env-badge-" + APP_ENV}>{ENV_LABEL}</span>
+        </div>
         <nav>
           {NAV_ITEMS.map((item) => (
             <NavLink
