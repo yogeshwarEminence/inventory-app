@@ -4,7 +4,7 @@ services:
       context: ./frontend
     container_name: inventory-frontend-dev
     ports:
-      - "8080:80"
+      - "3001:80"
     restart: unless-stopped
 
   backend:
