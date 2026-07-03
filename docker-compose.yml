@@ -1,34 +1,36 @@
+version: "3.9"
+
 services:
+
   frontend:
     build:
       context: ./frontend
-    container_name: inventory-frontend-dev
+    container_name: inventory-frontend-prod
+    expose:
+      - "80"
     ports:
-      - "3001:80"
-    restart: unless-stopped
+      - "3000:80"
 
   backend:
     build:
       context: ./backend
-    container_name: inventory-backend-dev
+    container_name: inventory-backend-prod
     ports:
-      - "5001:5000"
+      - "5000:5000"
     env_file:
       - ./backend/.env
-    restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
-    container_name: inventory-postgres-dev
+    container_name: inventory-postgres-prod
     environment:
       POSTGRES_DB: inventory_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-    restart: unless-stopped
+      - postgres_prod_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_dev_data:
+  postgres_prod_data:

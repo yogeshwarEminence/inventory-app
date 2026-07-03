@@ -3,6 +3,7 @@ import { Api } from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
+import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
 
 export default function Categories() {
   const { isAdmin } = useAuth();
@@ -100,20 +101,22 @@ export default function Categories() {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr>
-                <td colSpan={3}>Loading…</td>
-              </tr>
-            )}
+            {loading && <SkeletonRows columns={3} />}
             {!loading && error && (
-              <tr>
-                <td colSpan={3}>Failed to load categories: {error}</td>
-              </tr>
+              <ErrorRow columns={3} message={`Failed to load categories: ${error}`} onRetry={load} />
             )}
             {!loading && !error && items.length === 0 && (
-              <tr>
-                <td colSpan={3}>No categories yet.</td>
-              </tr>
+              <EmptyRow
+                columns={3}
+                message="No categories yet."
+                action={
+                  isAdmin && (
+                    <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
+                      + Add Category
+                    </button>
+                  )
+                }
+              />
             )}
             {!loading &&
               !error &&

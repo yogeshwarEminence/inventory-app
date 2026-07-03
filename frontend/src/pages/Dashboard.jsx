@@ -6,6 +6,7 @@ export default function Dashboard() {
   const [stats, setStats] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
@@ -24,13 +25,26 @@ export default function Dashboard() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadKey]);
 
   return (
     <section className="page">
       <div className="stat-grid">
-        {loading && <div className="card">Loading dashboard…</div>}
-        {!loading && error && <div className="card error-msg">Failed to load dashboard: {error}</div>}
+        {loading &&
+          Array.from({ length: 6 }).map((_, i) => (
+            <div className="stat-card skeleton-card" key={i}>
+              <span className="skeleton-bar" style={{ width: "60%" }} />
+              <span className="skeleton-bar" style={{ width: "40%", height: "22px", marginTop: "10px" }} />
+            </div>
+          ))}
+        {!loading && error && (
+          <div className="card error-msg">
+            <div>Failed to load dashboard: {error}</div>
+            <button className="btn btn-secondary btn-sm" style={{ marginTop: "10px" }} onClick={() => setReloadKey((k) => k + 1)}>
+              Retry
+            </button>
+          </div>
+        )}
         {!loading && !error && stats && (
           <>
             <div className="stat-card">

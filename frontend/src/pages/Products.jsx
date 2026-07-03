@@ -5,6 +5,7 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, debounce } from "../utils.js";
+import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
 
 const emptyForm = {
   sku: "",
@@ -206,20 +207,22 @@ export default function Products() {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr>
-                <td colSpan={7}>Loading…</td>
-              </tr>
-            )}
+            {loading && <SkeletonRows columns={7} />}
             {!loading && error && (
-              <tr>
-                <td colSpan={7}>Failed to load products: {error}</td>
-              </tr>
+              <ErrorRow columns={7} message={`Failed to load products: ${error}`} onRetry={load} />
             )}
             {!loading && !error && result.items.length === 0 && (
-              <tr>
-                <td colSpan={7}>No products found.</td>
-              </tr>
+              <EmptyRow
+                columns={7}
+                message="No products found."
+                action={
+                  isAdmin && (
+                    <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
+                      + Add Product
+                    </button>
+                  )
+                }
+              />
             )}
             {!loading &&
               !error &&

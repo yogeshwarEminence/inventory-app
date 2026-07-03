@@ -19,6 +19,7 @@ export class ApiError extends Error {
 class ApiClient {
   constructor() {
     this.token = safeGet("invtrack_token") || null;
+    this.unauthorizedHandler = null;
   }
 
   setToken(token) {
@@ -31,7 +32,12 @@ class ApiClient {
     safeRemove("invtrack_token");
   }
 
-  async request(method, path, body) {
+  onUnauthorized(handler) {
+    this.unauthorizedHandler = handler;
+  }
+
+  async request(method, path, body, options) {
+    const retries = options && typeof options.retries === "number" ? options.retries : 1;
     const headers = { "Content-Type": "application/json" };
     if (this.token) headers["Authorization"] = `Bearer ${this.token}`;
 
@@ -43,6 +49,10 @@ class ApiClient {
         body: body !== undefined ? JSON.stringify(body) : undefined,
       });
     } catch (err) {
+      if (retries > 0) {
+        await new Promise((r) => setTimeout(r, 500));
+        return this.request(method, path, body, { retries: retries - 1 });
+      }
       throw new ApiError("Cannot reach the server. Is the backend running?", 0);
     }
 
@@ -51,6 +61,10 @@ class ApiClient {
       data = await res.json();
     } catch (e) {
       /* no body */
+    }
+
+    if (res.status === 401 && this.unauthorizedHandler) {
+      this.unauthorizedHandler();
     }
 
     if (!res.ok) {

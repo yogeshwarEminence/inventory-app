@@ -4,6 +4,7 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, fmtDate } from "../utils.js";
+import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
 
 const NEXT_STATUS = {
   pending: ["processing", "cancelled"],
@@ -188,20 +189,20 @@ export default function Orders() {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr>
-                <td colSpan={6}>Loading…</td>
-              </tr>
-            )}
+            {loading && <SkeletonRows columns={6} />}
             {!loading && error && (
-              <tr>
-                <td colSpan={6}>Failed to load orders: {error}</td>
-              </tr>
+              <ErrorRow columns={6} message={`Failed to load orders: ${error}`} onRetry={load} />
             )}
             {!loading && !error && result.items.length === 0 && (
-              <tr>
-                <td colSpan={6}>No orders found.</td>
-              </tr>
+              <EmptyRow
+                columns={6}
+                message="No orders found."
+                action={
+                  <button className="btn btn-primary btn-sm" onClick={openNewOrderForm}>
+                    + New Order
+                  </button>
+                }
+              />
             )}
             {!loading &&
               !error &&

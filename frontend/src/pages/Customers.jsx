@@ -5,6 +5,7 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { debounce } from "../utils.js";
+import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
 
 const emptyForm = { full_name: "", email: "", phone: "", address: "" };
 
@@ -134,20 +135,20 @@ export default function Customers() {
             </tr>
           </thead>
           <tbody>
-            {loading && (
-              <tr>
-                <td colSpan={5}>Loading…</td>
-              </tr>
-            )}
+            {loading && <SkeletonRows columns={5} />}
             {!loading && error && (
-              <tr>
-                <td colSpan={5}>Failed to load customers: {error}</td>
-              </tr>
+              <ErrorRow columns={5} message={`Failed to load customers: ${error}`} onRetry={load} />
             )}
             {!loading && !error && result.items.length === 0 && (
-              <tr>
-                <td colSpan={5}>No customers found.</td>
-              </tr>
+              <EmptyRow
+                columns={5}
+                message="No customers found."
+                action={
+                  <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
+                    + Add Customer
+                  </button>
+                }
+              />
             )}
             {!loading &&
               !error &&

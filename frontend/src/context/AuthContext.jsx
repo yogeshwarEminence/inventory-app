@@ -50,6 +50,14 @@ export function AuthProvider({ children }) {
     setCurrentUser(null);
   }, []);
 
+  useEffect(() => {
+    Api.onUnauthorized(() => {
+      Api.clearToken();
+      safeRemove("invtrack_user");
+      setCurrentUser(null);
+    });
+  }, []);
+
   const isAdmin = currentUser && currentUser.role === "admin";
 
   return (
