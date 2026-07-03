@@ -1,7 +1,7 @@
 /* =========================================================
    InvenTrack — Inventory & Order Management UI
-   Palette: deep navy sidebar, cool indigo accent (production/
-   corporate motif), clean neutral surface for data-heavy tables.
+   Palette: deep slate sidebar, warm amber accent (stock/shelf
+   motif), clean neutral surface for data-heavy tables.
    ========================================================= */
 
 :root {
@@ -12,8 +12,8 @@
   --surface:    #f6f4ef;
   --surface-2:  #ffffff;
   --border:     #e4e0d6;
-  --amber:      #3454d1;
-  --amber-dark: #28409e;
+  --amber:      #d97b29;
+  --amber-dark: #b8631c;
   --teal:       #2f7a6b;
   --red:        #c0392b;
   --muted:      #6b7280;
@@ -93,13 +93,13 @@ input, select { font-family: inherit; font-size: 14px; }
 }
 .brand-mini { font-weight: 700; font-size: 17px; padding: 6px 8px 18px; display: flex; align-items: center; gap: 8px; }
 .sidebar-development { background: #14312b; border-right: 3px solid #22c55e; }
-.sidebar-production { background: #10162b; }
+.sidebar-production { background: var(--slate-900); }
 .env-badge {
   font-size: 10px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 7px;
   border-radius: 999px; text-transform: uppercase;
 }
 .env-badge-development { background: #22c55e; color: #06280f; }
-.env-badge-production { background: var(--amber); color: #fff; }
+.env-badge-production { background: var(--amber); color: #3a2400; }
 .sidebar nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
 .nav-btn {
   text-align: left; background: transparent; border: none; color: #aab2bd;

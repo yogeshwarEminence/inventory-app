@@ -7,5 +7,5 @@
 //
 // Do not copy this file between branches — each branch keeps its own
 // version intentionally.
-export const BRANCH = "main";
-export const APP_VERSION = "1.1.0";
+export const BRANCH = "development";
+export const APP_VERSION = "1.1.0-dev";
