@@ -1,4 +1,5 @@
 import React from "react";
+import { IconAlert, IconInbox } from "./Icons.jsx";
 
 // Consistent "table is loading" skeleton instead of a bare "Loading…" row.
 export function SkeletonRows({ columns, rows = 5 }) {
@@ -25,7 +26,8 @@ export function ErrorRow({ columns, message, onRetry }) {
     <tr>
       <td colSpan={columns}>
         <div className="inline-error">
-          <span>⚠️ {message || "Something went wrong."}</span>
+          <IconAlert width={17} height={17} />
+          <span>{message || "Something went wrong."}</span>
           {onRetry && (
             <button className="btn btn-secondary btn-sm" onClick={onRetry}>
               Retry
@@ -42,6 +44,7 @@ export function EmptyRow({ columns, message, action }) {
     <tr>
       <td colSpan={columns}>
         <div className="inline-empty">
+          <IconInbox width={22} height={22} />
           <span>{message || "Nothing here yet."}</span>
           {action}
         </div>

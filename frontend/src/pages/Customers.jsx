@@ -6,6 +6,7 @@ import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { debounce } from "../utils.js";
 import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
+import { IconSearch, IconPlus } from "../components/Icons.jsx";
 
 const emptyForm = { full_name: "", email: "", phone: "", address: "" };
 
@@ -113,13 +114,16 @@ export default function Customers() {
   return (
     <section className="page">
       <div className="toolbar">
-        <input
-          type="text"
-          placeholder="Search customers..."
-          onChange={(e) => debouncedSetSearch(e.target.value)}
-        />
+        <div className="search-field">
+          <IconSearch width={15} height={15} />
+          <input
+            type="text"
+            placeholder="Search customers..."
+            onChange={(e) => debouncedSetSearch(e.target.value)}
+          />
+        </div>
         <button className="btn btn-primary" onClick={() => openForm()}>
-          + New Customer
+          <IconPlus width={15} height={15} /> New Customer
         </button>
       </div>
 

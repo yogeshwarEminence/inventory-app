@@ -6,6 +6,7 @@ import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, debounce } from "../utils.js";
 import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
+import { IconSearch, IconPlus } from "../components/Icons.jsx";
 
 const emptyForm = {
   sku: "",
@@ -170,11 +171,14 @@ export default function Products() {
   return (
     <section className="page">
       <div className="toolbar">
-        <input
-          type="text"
-          placeholder="Search by name or SKU..."
-          onChange={(e) => debouncedSetSearch(e.target.value)}
-        />
+        <div className="search-field">
+          <IconSearch width={15} height={15} />
+          <input
+            type="text"
+            placeholder="Search by name or SKU..."
+            onChange={(e) => debouncedSetSearch(e.target.value)}
+          />
+        </div>
         <label className="checkbox-label">
           <input
             type="checkbox"
@@ -188,7 +192,7 @@ export default function Products() {
         </label>
         {isAdmin && (
           <button className="btn btn-primary" onClick={() => openForm()}>
-            + New Product
+            <IconPlus width={15} height={15} /> New Product
           </button>
         )}
       </div>
@@ -228,11 +232,11 @@ export default function Products() {
               !error &&
               result.items.map((p) => (
                 <tr key={p.id}>
-                  <td>{p.sku}</td>
+                  <td className="mono">{p.sku}</td>
                   <td>{p.name}</td>
                   <td>{p.category_name || "—"}</td>
-                  <td>{fmtCurrency(p.unit_price)}</td>
-                  <td>{p.quantity_in_stock}</td>
+                  <td className="mono">{fmtCurrency(p.unit_price)}</td>
+                  <td className="mono">{p.quantity_in_stock}</td>
                   <td>
                     {p.low_stock ? (
                       <span className="badge badge-low">Low Stock</span>

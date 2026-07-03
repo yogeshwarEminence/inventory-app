@@ -1,4 +1,5 @@
 import React from "react";
+import { IconAlert } from "./Icons.jsx";
 
 // Real-world apps shouldn't show a blank white screen when a component
 // throws. This catches render errors anywhere below it in the tree and
@@ -29,6 +30,9 @@ export default class ErrorBoundary extends React.Component {
       return (
         <div className="fatal-error-screen">
           <div className="fatal-error-card">
+            <div className="fatal-error-icon">
+              <IconAlert width={26} height={26} />
+            </div>
             <h1>Something went wrong</h1>
             <p className="muted">
               An unexpected error occurred while rendering this page. Your data is safe — try

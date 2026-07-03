@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { Api, ApiError } from "../api.js";
 import { fmtCurrency } from "../utils.js";
+import { IconBox, IconAlert, IconOrders, IconLayers, IconUsers, IconTag } from "../components/Icons.jsx";
+
+const STAT_DEFS = [
+  { key: "total_products", label: "Total Products", Icon: IconBox, tone: "" },
+  { key: "low_stock_products", label: "Low Stock Items", Icon: IconAlert, tone: "warn" },
+  { key: "total_orders", label: "Total Orders", Icon: IconOrders, tone: "" },
+  { key: "pending_orders", label: "Pending Orders", Icon: IconLayers, tone: "accent" },
+  { key: "total_customers", label: "Total Customers", Icon: IconUsers, tone: "" },
+  { key: "total_revenue", label: "Total Revenue", Icon: IconTag, tone: "accent", currency: true },
+];
 
 export default function Dashboard() {
   const [stats, setStats] = useState(null);
@@ -45,36 +55,22 @@ export default function Dashboard() {
             </button>
           </div>
         )}
-        {!loading && !error && stats && (
-          <>
-            <div className="stat-card">
-              <div className="label">Total Products</div>
-              <div className="value">{stats.total_products}</div>
+        {!loading &&
+          !error &&
+          stats &&
+          STAT_DEFS.map((def) => (
+            <div className={"stat-card" + (def.tone ? ` ${def.tone}` : "")} key={def.key}>
+              <div className="stat-icon">
+                <def.Icon width={16} height={16} />
+              </div>
+              <div className="label">{def.label}</div>
+              <div className="value mono">
+                {def.currency ? fmtCurrency(stats[def.key]) : stats[def.key]}
+              </div>
             </div>
-            <div className="stat-card warn">
-              <div className="label">Low Stock Items</div>
-              <div className="value">{stats.low_stock_products}</div>
-            </div>
-            <div className="stat-card">
-              <div className="label">Total Orders</div>
-              <div className="value">{stats.total_orders}</div>
-            </div>
-            <div className="stat-card accent">
-              <div className="label">Pending Orders</div>
-              <div className="value">{stats.pending_orders}</div>
-            </div>
-            <div className="stat-card">
-              <div className="label">Total Customers</div>
-              <div className="value">{stats.total_customers}</div>
-            </div>
-            <div className="stat-card accent">
-              <div className="label">Total Revenue</div>
-              <div className="value">{fmtCurrency(stats.total_revenue)}</div>
-            </div>
-          </>
-        )}
+          ))}
       </div>
-      <div className="card">
+      <div className="card welcome-card">
         <h3>Welcome to InvenTrack</h3>
         <p className="muted">
           Use the navigation menu to manage products, categories, customers, and orders. Admin users can

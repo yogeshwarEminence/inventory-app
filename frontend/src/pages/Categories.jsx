@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext.jsx";
 import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
+import { IconPlus } from "../components/Icons.jsx";
 
 export default function Categories() {
   const { isAdmin } = useAuth();
@@ -86,7 +87,7 @@ export default function Categories() {
         <h3>Categories</h3>
         {isAdmin && (
           <button className="btn btn-primary" onClick={() => openForm()}>
-            + New Category
+            <IconPlus width={15} height={15} /> New Category
           </button>
         )}
       </div>

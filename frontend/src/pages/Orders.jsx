@@ -5,6 +5,7 @@ import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, fmtDate } from "../utils.js";
 import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
+import { IconPlus, IconClose } from "../components/Icons.jsx";
 
 const NEXT_STATUS = {
   pending: ["processing", "cancelled"],
@@ -172,7 +173,7 @@ export default function Orders() {
           <option value="cancelled">Cancelled</option>
         </select>
         <button className="btn btn-primary" onClick={openNewOrderForm}>
-          + New Order
+          <IconPlus width={15} height={15} /> New Order
         </button>
       </div>
 
@@ -208,13 +209,13 @@ export default function Orders() {
               !error &&
               result.items.map((o) => (
                 <tr key={o.id}>
-                  <td>#{o.id}</td>
+                  <td className="mono">#{o.id}</td>
                   <td>{o.customer_name}</td>
                   <td>
                     <span className={`badge badge-${o.status}`}>{o.status}</span>
                   </td>
-                  <td>{fmtCurrency(o.total_amount)}</td>
-                  <td>{fmtDate(o.order_date)}</td>
+                  <td className="mono">{fmtCurrency(o.total_amount)}</td>
+                  <td className="mono">{fmtDate(o.order_date)}</td>
                   <td>
                     <div className="row-actions">
                       <button className="btn btn-secondary btn-sm" onClick={() => openDetail(o.id)}>
@@ -342,14 +343,15 @@ export default function Orders() {
                     type="button"
                     className="btn btn-secondary btn-sm oi-remove"
                     onClick={() => removeItemRow(row.id)}
+                    aria-label="Remove item"
                   >
-                    ✕
+                    <IconClose width={13} height={13} />
                   </button>
                 </div>
               ))}
             </div>
             <button type="button" className="btn btn-secondary btn-sm" onClick={addItemRow}>
-              + Add Item
+              <IconPlus width={13} height={13} /> Add Item
             </button>
 
             <p style={{ textAlign: "right", fontWeight: 700 }}>Total: {fmtCurrency(computeTotal())}</p>
