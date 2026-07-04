@@ -95,7 +95,7 @@ a { color: inherit; }
   border-radius: 10px; background: var(--accent-soft); color: var(--accent); border: 1px solid rgba(76,141,255,0.35);
 }
 .auth-visual h1 { font-size: 34px; line-height: 1.15; margin: 6px 0 2px; max-width: 480px; color: #fff; }
-.auth-visual p { color: var(--ink-dim); max-width: 440px; margin: 0; font-size: 14.5px; }
+.auth-visual p { color: #c7d4ec; max-width: 440px; margin: 0; font-size: 14.5px; }
 .auth-visual-points { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-direction: column; gap: 10px; }
 .auth-visual-points li { display: flex; align-items: center; gap: 10px; color: #cddaf1; font-size: 13.5px; }
 .auth-visual-points li svg { color: var(--accent); flex-shrink: 0; }

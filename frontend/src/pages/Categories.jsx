@@ -113,7 +113,7 @@ export default function Categories() {
                 action={
                   isAdmin && (
                     <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
-                      + Add Category
+                      <IconPlus width={13} height={13} /> Add Category
                     </button>
                   )
                 }

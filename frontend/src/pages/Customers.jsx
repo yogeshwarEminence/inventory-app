@@ -149,7 +149,7 @@ export default function Customers() {
                 message="No customers found."
                 action={
                   <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
-                    + Add Customer
+                    <IconPlus width={13} height={13} /> Add Customer
                   </button>
                 }
               />
