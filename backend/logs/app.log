@@ -1,0 +1,13 @@
+2026-07-04 04:54:08 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-04 04:54:08 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-04 04:54:08 | INFO     | __main__ | Waiting for PostgreSQL to become available...
+2026-07-04 04:54:09 | INFO     | __main__ | PostgreSQL is available - initializing schema.
+2026-07-04 04:54:16 | INFO     | __main__ | OPTIONS /api/auth/login -> 200 (0.1ms)
+2026-07-04 04:54:16 | INFO     | services.auth_service | User logged in: admin@inventory.local
+2026-07-04 04:54:16 | INFO     | __main__ | POST /api/auth/login -> 200 (234.7ms)
+2026-07-04 04:54:16 | INFO     | __main__ | OPTIONS /api/dashboard/stats -> 200 (0.1ms)
+2026-07-04 04:54:16 | INFO     | __main__ | GET /api/dashboard/stats -> 200 (22.7ms)
+2026-07-04 04:54:18 | INFO     | __main__ | OPTIONS /api/categories -> 200 (0.1ms)
+2026-07-04 04:54:18 | INFO     | __main__ | OPTIONS /api/products -> 200 (0.1ms)
+2026-07-04 04:54:18 | INFO     | __main__ | GET /api/categories -> 200 (33.2ms)
+2026-07-04 04:54:19 | INFO     | __main__ | GET /api/products -> 200 (60.7ms)
