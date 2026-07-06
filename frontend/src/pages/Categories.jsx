@@ -24,7 +24,7 @@ export default function Categories() {
     setLoading(true);
     setError("");
     try {
-      const result = await Api.get("/api/categories");
+      const result = await Api.get("/categories");
       setItems(result.items);
     } catch (err) {
       setError(err.message);
@@ -55,10 +55,10 @@ export default function Categories() {
     const payload = { name: name.trim(), description: description.trim() };
     try {
       if (editing) {
-        await Api.put(`/api/categories/${editing.id}`, payload);
+        await Api.put(`/categories/${editing.id}`, payload);
         showToast("Category updated", "success");
       } else {
-        await Api.post("/api/categories", payload);
+        await Api.post("/categories", payload);
         showToast("Category created", "success");
       }
       closeForm();
@@ -70,7 +70,7 @@ export default function Categories() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/categories/${deleteTarget.id}`);
+      await Api.del(`/categories/${deleteTarget.id}`);
       showToast("Category deleted", "success");
       setDeleteTarget(null);
       load();

@@ -42,7 +42,7 @@ export default function Products() {
 
   async function loadCategories() {
     try {
-      const res = await Api.get("/api/categories");
+      const res = await Api.get("/categories");
       setCategories(res.items);
     } catch (e) {
       /* non-fatal */
@@ -56,7 +56,7 @@ export default function Products() {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (search) params.set("search", search);
       if (lowStockOnly) params.set("low_stock", "true");
-      const res = await Api.get(`/api/products?${params.toString()}`);
+      const res = await Api.get(`/products?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -87,7 +87,7 @@ export default function Products() {
     setFormError("");
     if (product) {
       setEditingId(product.id);
-      Api.get(`/api/products/${product.id}`).then((p) => {
+      Api.get(`/products/${product.id}`).then((p) => {
         setForm({
           sku: p.sku,
           name: p.name,
@@ -123,10 +123,10 @@ export default function Products() {
     };
     try {
       if (editingId) {
-        await Api.put(`/api/products/${editingId}`, payload);
+        await Api.put(`/products/${editingId}`, payload);
         showToast("Product updated", "success");
       } else {
-        await Api.post("/api/products", payload);
+        await Api.post("/products", payload);
         showToast("Product created", "success");
       }
       closeForm();
@@ -146,7 +146,7 @@ export default function Products() {
   async function submitAdjust(e) {
     e.preventDefault();
     try {
-      await Api.patch(`/api/products/${adjustId}/stock`, { delta: parseInt(delta, 10) });
+      await Api.patch(`/products/${adjustId}/stock`, { delta: parseInt(delta, 10) });
       showToast("Stock updated", "success");
       setAdjustOpen(false);
       load();
@@ -157,7 +157,7 @@ export default function Products() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/products/${deleteTarget.id}`);
+      await Api.del(`/products/${deleteTarget.id}`);
       showToast("Product deleted", "success");
       setDeleteTarget(null);
       load();

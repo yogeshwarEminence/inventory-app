@@ -11,7 +11,7 @@ export default function Dashboard() {
     let cancelled = false;
     setLoading(true);
     setError("");
-    Api.get("/api/dashboard/stats")
+    Api.get("/dashboard/stats")
       .then((data) => {
         if (!cancelled) setStats(data);
       })

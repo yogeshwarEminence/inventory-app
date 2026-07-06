@@ -43,7 +43,7 @@ export default function Orders() {
     try {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (status) params.set("status", status);
-      const res = await Api.get(`/api/orders?${params.toString()}`);
+      const res = await Api.get(`/orders?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -63,7 +63,7 @@ export default function Orders() {
     setDetailError("");
     setDetailOrder(null);
     try {
-      const order = await Api.get(`/api/orders/${orderId}`);
+      const order = await Api.get(`/orders/${orderId}`);
       setDetailOrder(order);
     } catch (err) {
       setDetailError(err.message);
@@ -74,7 +74,7 @@ export default function Orders() {
 
   async function transitionStatus(orderId, newStatus) {
     try {
-      await Api.patch(`/api/orders/${orderId}/status`, { status: newStatus });
+      await Api.patch(`/orders/${orderId}/status`, { status: newStatus });
       showToast(`Order #${orderId} marked as ${newStatus}`, "success");
       setDetailOpen(false);
       load();
@@ -93,8 +93,8 @@ export default function Orders() {
     setRowCounter(1);
     try {
       const [customersRes, productsRes] = await Promise.all([
-        Api.get("/api/customers?page_size=100"),
-        Api.get("/api/products?page_size=100"),
+        Api.get("/customers?page_size=100"),
+        Api.get("/products?page_size=100"),
       ]);
       setAllCustomers(customersRes.items);
       setAllProducts(productsRes.items.filter((p) => p.quantity_in_stock > 0));
@@ -144,7 +144,7 @@ export default function Orders() {
     }
 
     try {
-      const order = await Api.post("/api/orders", { customer_id: parseInt(customerId, 10), items });
+      const order = await Api.post("/orders", { customer_id: parseInt(customerId, 10), items });
       showToast(`Order #${order.id} created`, "success");
       setNewOrderOpen(false);
       load();

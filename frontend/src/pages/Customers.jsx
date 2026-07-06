@@ -31,7 +31,7 @@ export default function Customers() {
     try {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (search) params.set("search", search);
-      const res = await Api.get(`/api/customers?${params.toString()}`);
+      const res = await Api.get(`/customers?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -85,10 +85,10 @@ export default function Customers() {
     };
     try {
       if (editing) {
-        await Api.put(`/api/customers/${editing.id}`, payload);
+        await Api.put(`/customers/${editing.id}`, payload);
         showToast("Customer updated", "success");
       } else {
-        await Api.post("/api/customers", payload);
+        await Api.post("/customers", payload);
         showToast("Customer created", "success");
       }
       closeForm();
@@ -100,7 +100,7 @@ export default function Customers() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/customers/${deleteTarget.id}`);
+      await Api.del(`/customers/${deleteTarget.id}`);
       showToast("Customer deleted", "success");
       setDeleteTarget(null);
       load();

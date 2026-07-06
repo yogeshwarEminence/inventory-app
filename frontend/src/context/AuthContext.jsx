@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(
     async (email, password) => {
-      const result = await Api.post("/api/auth/login", { email, password });
+      const result = await Api.post("/auth/login", { email, password });
       return onAuthSuccess(result);
     },
     [onAuthSuccess]
@@ -38,7 +38,7 @@ export function AuthProvider({ children }) {
 
   const register = useCallback(
     async (full_name, email, password, role) => {
-      const result = await Api.post("/api/auth/register", { full_name, email, password, role });
+      const result = await Api.post("/auth/register", { full_name, email, password, role });
       return onAuthSuccess(result);
     },
     [onAuthSuccess]
