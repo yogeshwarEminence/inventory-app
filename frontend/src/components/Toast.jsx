@@ -1,5 +1,4 @@
 import React, { createContext, useCallback, useContext, useRef, useState } from "react";
-import { IconCheck, IconAlert } from "./Icons.jsx";
 
 const ToastContext = createContext(null);
 
@@ -19,9 +18,7 @@ export function ToastProvider({ children }) {
     <ToastContext.Provider value={showToast}>
       {children}
       <div className={"toast" + (toast.type ? ` ${toast.type}` : "") + (toast.visible ? "" : " hidden")}>
-        {toast.type === "success" && <IconCheck width={16} height={16} />}
-        {toast.type === "error" && <IconAlert width={16} height={16} />}
-        <span>{toast.message}</span>
+        {toast.message}
       </div>
     </ToastContext.Provider>
   );

@@ -5,8 +5,6 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { debounce } from "../utils.js";
-import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
-import { IconSearch, IconPlus } from "../components/Icons.jsx";
 
 const emptyForm = { full_name: "", email: "", phone: "", address: "" };
 
@@ -33,7 +31,7 @@ export default function Customers() {
     try {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (search) params.set("search", search);
-      const res = await Api.get(`/api/customers?${params.toString()}`);
+      const res = await Api.get(`/customers?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -87,10 +85,10 @@ export default function Customers() {
     };
     try {
       if (editing) {
-        await Api.put(`/api/customers/${editing.id}`, payload);
+        await Api.put(`/customers/${editing.id}`, payload);
         showToast("Customer updated", "success");
       } else {
-        await Api.post("/api/customers", payload);
+        await Api.post("/customers", payload);
         showToast("Customer created", "success");
       }
       closeForm();
@@ -102,7 +100,7 @@ export default function Customers() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/customers/${deleteTarget.id}`);
+      await Api.del(`/customers/${deleteTarget.id}`);
       showToast("Customer deleted", "success");
       setDeleteTarget(null);
       load();
@@ -114,16 +112,13 @@ export default function Customers() {
   return (
     <section className="page">
       <div className="toolbar">
-        <div className="search-field">
-          <IconSearch width={15} height={15} />
-          <input
-            type="text"
-            placeholder="Search customers..."
-            onChange={(e) => debouncedSetSearch(e.target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Search customers..."
+          onChange={(e) => debouncedSetSearch(e.target.value)}
+        />
         <button className="btn btn-primary" onClick={() => openForm()}>
-          <IconPlus width={15} height={15} /> New Customer
+          + New Customer
         </button>
       </div>
 
@@ -139,20 +134,20 @@ export default function Customers() {
             </tr>
           </thead>
           <tbody>
-            {loading && <SkeletonRows columns={5} />}
+            {loading && (
+              <tr>
+                <td colSpan={5}>Loading…</td>
+              </tr>
+            )}
             {!loading && error && (
-              <ErrorRow columns={5} message={`Failed to load customers: ${error}`} onRetry={load} />
+              <tr>
+                <td colSpan={5}>Failed to load customers: {error}</td>
+              </tr>
             )}
             {!loading && !error && result.items.length === 0 && (
-              <EmptyRow
-                columns={5}
-                message="No customers found."
-                action={
-                  <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
-                    <IconPlus width={13} height={13} /> Add Customer
-                  </button>
-                }
-              />
+              <tr>
+                <td colSpan={5}>No customers found.</td>
+              </tr>
             )}
             {!loading &&
               !error &&

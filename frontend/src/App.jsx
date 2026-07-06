@@ -9,7 +9,6 @@ import Products from "./pages/Products.jsx";
 import Categories from "./pages/Categories.jsx";
 import Customers from "./pages/Customers.jsx";
 import Orders from "./pages/Orders.jsx";
-import NotFound from "./pages/NotFound.jsx";
 
 function ProtectedLayout() {
   const { currentUser, ready } = useAuth();
@@ -44,7 +43,6 @@ export default function App() {
             <Route path="/categories" element={<Categories />} />
             <Route path="/customers" element={<Customers />} />
             <Route path="/orders" element={<Orders />} />
-            <Route path="*" element={<NotFound />} />
           </Route>
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

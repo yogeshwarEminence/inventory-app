@@ -3,8 +3,6 @@ import { Api } from "../api.js";
 import { useAuth } from "../context/AuthContext.jsx";
 import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
-import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
-import { IconPlus } from "../components/Icons.jsx";
 
 export default function Categories() {
   const { isAdmin } = useAuth();
@@ -26,7 +24,7 @@ export default function Categories() {
     setLoading(true);
     setError("");
     try {
-      const result = await Api.get("/api/categories");
+      const result = await Api.get("/categories");
       setItems(result.items);
     } catch (err) {
       setError(err.message);
@@ -57,10 +55,10 @@ export default function Categories() {
     const payload = { name: name.trim(), description: description.trim() };
     try {
       if (editing) {
-        await Api.put(`/api/categories/${editing.id}`, payload);
+        await Api.put(`/categories/${editing.id}`, payload);
         showToast("Category updated", "success");
       } else {
-        await Api.post("/api/categories", payload);
+        await Api.post("/categories", payload);
         showToast("Category created", "success");
       }
       closeForm();
@@ -72,7 +70,7 @@ export default function Categories() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/categories/${deleteTarget.id}`);
+      await Api.del(`/categories/${deleteTarget.id}`);
       showToast("Category deleted", "success");
       setDeleteTarget(null);
       load();
@@ -87,7 +85,7 @@ export default function Categories() {
         <h3>Categories</h3>
         {isAdmin && (
           <button className="btn btn-primary" onClick={() => openForm()}>
-            <IconPlus width={15} height={15} /> New Category
+            + New Category
           </button>
         )}
       </div>
@@ -102,22 +100,20 @@ export default function Categories() {
             </tr>
           </thead>
           <tbody>
-            {loading && <SkeletonRows columns={3} />}
+            {loading && (
+              <tr>
+                <td colSpan={3}>Loading…</td>
+              </tr>
+            )}
             {!loading && error && (
-              <ErrorRow columns={3} message={`Failed to load categories: ${error}`} onRetry={load} />
+              <tr>
+                <td colSpan={3}>Failed to load categories: {error}</td>
+              </tr>
             )}
             {!loading && !error && items.length === 0 && (
-              <EmptyRow
-                columns={3}
-                message="No categories yet."
-                action={
-                  isAdmin && (
-                    <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
-                      <IconPlus width={13} height={13} /> Add Category
-                    </button>
-                  )
-                }
-              />
+              <tr>
+                <td colSpan={3}>No categories yet.</td>
+              </tr>
             )}
             {!loading &&
               !error &&

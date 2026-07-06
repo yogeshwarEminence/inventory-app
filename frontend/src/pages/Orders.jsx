@@ -4,8 +4,6 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, fmtDate } from "../utils.js";
-import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
-import { IconPlus, IconClose } from "../components/Icons.jsx";
 
 const NEXT_STATUS = {
   pending: ["processing", "cancelled"],
@@ -45,7 +43,7 @@ export default function Orders() {
     try {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (status) params.set("status", status);
-      const res = await Api.get(`/api/orders?${params.toString()}`);
+      const res = await Api.get(`/orders?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -65,7 +63,7 @@ export default function Orders() {
     setDetailError("");
     setDetailOrder(null);
     try {
-      const order = await Api.get(`/api/orders/${orderId}`);
+      const order = await Api.get(`/orders/${orderId}`);
       setDetailOrder(order);
     } catch (err) {
       setDetailError(err.message);
@@ -76,7 +74,7 @@ export default function Orders() {
 
   async function transitionStatus(orderId, newStatus) {
     try {
-      await Api.patch(`/api/orders/${orderId}/status`, { status: newStatus });
+      await Api.patch(`/orders/${orderId}/status`, { status: newStatus });
       showToast(`Order #${orderId} marked as ${newStatus}`, "success");
       setDetailOpen(false);
       load();
@@ -95,8 +93,8 @@ export default function Orders() {
     setRowCounter(1);
     try {
       const [customersRes, productsRes] = await Promise.all([
-        Api.get("/api/customers?page_size=100"),
-        Api.get("/api/products?page_size=100"),
+        Api.get("/customers?page_size=100"),
+        Api.get("/products?page_size=100"),
       ]);
       setAllCustomers(customersRes.items);
       setAllProducts(productsRes.items.filter((p) => p.quantity_in_stock > 0));
@@ -146,7 +144,7 @@ export default function Orders() {
     }
 
     try {
-      const order = await Api.post("/api/orders", { customer_id: parseInt(customerId, 10), items });
+      const order = await Api.post("/orders", { customer_id: parseInt(customerId, 10), items });
       showToast(`Order #${order.id} created`, "success");
       setNewOrderOpen(false);
       load();
@@ -173,7 +171,7 @@ export default function Orders() {
           <option value="cancelled">Cancelled</option>
         </select>
         <button className="btn btn-primary" onClick={openNewOrderForm}>
-          <IconPlus width={15} height={15} /> New Order
+          + New Order
         </button>
       </div>
 
@@ -190,32 +188,32 @@ export default function Orders() {
             </tr>
           </thead>
           <tbody>
-            {loading && <SkeletonRows columns={6} />}
+            {loading && (
+              <tr>
+                <td colSpan={6}>Loading…</td>
+              </tr>
+            )}
             {!loading && error && (
-              <ErrorRow columns={6} message={`Failed to load orders: ${error}`} onRetry={load} />
+              <tr>
+                <td colSpan={6}>Failed to load orders: {error}</td>
+              </tr>
             )}
             {!loading && !error && result.items.length === 0 && (
-              <EmptyRow
-                columns={6}
-                message="No orders found."
-                action={
-                  <button className="btn btn-primary btn-sm" onClick={openNewOrderForm}>
-                    + New Order
-                  </button>
-                }
-              />
+              <tr>
+                <td colSpan={6}>No orders found.</td>
+              </tr>
             )}
             {!loading &&
               !error &&
               result.items.map((o) => (
                 <tr key={o.id}>
-                  <td className="mono">#{o.id}</td>
+                  <td>#{o.id}</td>
                   <td>{o.customer_name}</td>
                   <td>
                     <span className={`badge badge-${o.status}`}>{o.status}</span>
                   </td>
-                  <td className="mono">{fmtCurrency(o.total_amount)}</td>
-                  <td className="mono">{fmtDate(o.order_date)}</td>
+                  <td>{fmtCurrency(o.total_amount)}</td>
+                  <td>{fmtDate(o.order_date)}</td>
                   <td>
                     <div className="row-actions">
                       <button className="btn btn-secondary btn-sm" onClick={() => openDetail(o.id)}>
@@ -343,15 +341,14 @@ export default function Orders() {
                     type="button"
                     className="btn btn-secondary btn-sm oi-remove"
                     onClick={() => removeItemRow(row.id)}
-                    aria-label="Remove item"
                   >
-                    <IconClose width={13} height={13} />
+                    ✕
                   </button>
                 </div>
               ))}
             </div>
             <button type="button" className="btn btn-secondary btn-sm" onClick={addItemRow}>
-              <IconPlus width={13} height={13} /> Add Item
+              + Add Item
             </button>
 
             <p style={{ textAlign: "right", fontWeight: 700 }}>Total: {fmtCurrency(computeTotal())}</p>

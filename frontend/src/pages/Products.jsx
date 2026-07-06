@@ -5,8 +5,6 @@ import { useToast } from "../components/Toast.jsx";
 import Modal from "../components/Modal.jsx";
 import Pagination from "../components/Pagination.jsx";
 import { fmtCurrency, debounce } from "../utils.js";
-import { SkeletonRows, ErrorRow, EmptyRow } from "../components/StateViews.jsx";
-import { IconSearch, IconPlus } from "../components/Icons.jsx";
 
 const emptyForm = {
   sku: "",
@@ -44,7 +42,7 @@ export default function Products() {
 
   async function loadCategories() {
     try {
-      const res = await Api.get("/api/categories");
+      const res = await Api.get("/categories");
       setCategories(res.items);
     } catch (e) {
       /* non-fatal */
@@ -58,7 +56,7 @@ export default function Products() {
       const params = new URLSearchParams({ page, page_size: 10 });
       if (search) params.set("search", search);
       if (lowStockOnly) params.set("low_stock", "true");
-      const res = await Api.get(`/api/products?${params.toString()}`);
+      const res = await Api.get(`/products?${params.toString()}`);
       setResult(res);
     } catch (err) {
       setError(err.message);
@@ -89,7 +87,7 @@ export default function Products() {
     setFormError("");
     if (product) {
       setEditingId(product.id);
-      Api.get(`/api/products/${product.id}`).then((p) => {
+      Api.get(`/products/${product.id}`).then((p) => {
         setForm({
           sku: p.sku,
           name: p.name,
@@ -125,10 +123,10 @@ export default function Products() {
     };
     try {
       if (editingId) {
-        await Api.put(`/api/products/${editingId}`, payload);
+        await Api.put(`/products/${editingId}`, payload);
         showToast("Product updated", "success");
       } else {
-        await Api.post("/api/products", payload);
+        await Api.post("/products", payload);
         showToast("Product created", "success");
       }
       closeForm();
@@ -148,7 +146,7 @@ export default function Products() {
   async function submitAdjust(e) {
     e.preventDefault();
     try {
-      await Api.patch(`/api/products/${adjustId}/stock`, { delta: parseInt(delta, 10) });
+      await Api.patch(`/products/${adjustId}/stock`, { delta: parseInt(delta, 10) });
       showToast("Stock updated", "success");
       setAdjustOpen(false);
       load();
@@ -159,7 +157,7 @@ export default function Products() {
 
   async function confirmDelete() {
     try {
-      await Api.del(`/api/products/${deleteTarget.id}`);
+      await Api.del(`/products/${deleteTarget.id}`);
       showToast("Product deleted", "success");
       setDeleteTarget(null);
       load();
@@ -171,14 +169,11 @@ export default function Products() {
   return (
     <section className="page">
       <div className="toolbar">
-        <div className="search-field">
-          <IconSearch width={15} height={15} />
-          <input
-            type="text"
-            placeholder="Search by name or SKU..."
-            onChange={(e) => debouncedSetSearch(e.target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          placeholder="Search by name or SKU..."
+          onChange={(e) => debouncedSetSearch(e.target.value)}
+        />
         <label className="checkbox-label">
           <input
             type="checkbox"
@@ -192,7 +187,7 @@ export default function Products() {
         </label>
         {isAdmin && (
           <button className="btn btn-primary" onClick={() => openForm()}>
-            <IconPlus width={15} height={15} /> New Product
+            + New Product
           </button>
         )}
       </div>
@@ -211,32 +206,30 @@ export default function Products() {
             </tr>
           </thead>
           <tbody>
-            {loading && <SkeletonRows columns={7} />}
+            {loading && (
+              <tr>
+                <td colSpan={7}>Loading…</td>
+              </tr>
+            )}
             {!loading && error && (
-              <ErrorRow columns={7} message={`Failed to load products: ${error}`} onRetry={load} />
+              <tr>
+                <td colSpan={7}>Failed to load products: {error}</td>
+              </tr>
             )}
             {!loading && !error && result.items.length === 0 && (
-              <EmptyRow
-                columns={7}
-                message="No products found."
-                action={
-                  isAdmin && (
-                    <button className="btn btn-primary btn-sm" onClick={() => openForm()}>
-                      + Add Product
-                    </button>
-                  )
-                }
-              />
+              <tr>
+                <td colSpan={7}>No products found.</td>
+              </tr>
             )}
             {!loading &&
               !error &&
               result.items.map((p) => (
                 <tr key={p.id}>
-                  <td className="mono">{p.sku}</td>
+                  <td>{p.sku}</td>
                   <td>{p.name}</td>
                   <td>{p.category_name || "—"}</td>
-                  <td className="mono">{fmtCurrency(p.unit_price)}</td>
-                  <td className="mono">{p.quantity_in_stock}</td>
+                  <td>{fmtCurrency(p.unit_price)}</td>
+                  <td>{p.quantity_in_stock}</td>
                   <td>
                     {p.low_stock ? (
                       <span className="badge badge-low">Low Stock</span>
