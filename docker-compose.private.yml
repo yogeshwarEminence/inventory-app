@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+    container_name: inventory-backend-prod
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: inventory-postgres-prod
+    environment:
+      POSTGRES_DB: inventory_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_prod_data:

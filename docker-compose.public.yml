@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+    container_name: inventory-frontend-prod
+    expose:
+      - "80"
+    ports:
+      - "3000:80"
