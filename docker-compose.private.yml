@@ -12,6 +12,7 @@ services:
       - ./backend/.env
     depends_on:
       - postgres
+    restart: unless-stopped
 
   postgres:
     image: postgres:16-alpine
@@ -22,6 +23,7 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    restart: unless-stopped
     volumes:
       - postgres_prod_data:/var/lib/postgresql/data
 
