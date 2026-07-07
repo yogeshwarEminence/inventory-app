@@ -10,6 +10,7 @@ services:
       - "5000:5000"
     env_file:
       - ./backend/.env
+    restart: unless-stopped
     depends_on:
       - postgres
 
@@ -22,6 +23,7 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - "5432:5432"
+    restart: unless-stopped
     volumes:
       - postgres_prod_data:/var/lib/postgresql/data
 

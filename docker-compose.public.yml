@@ -8,3 +8,4 @@ services:
     container_name: inventory-frontend-prod
     ports:
       - "80:80"
+    restart: unless-stopped
