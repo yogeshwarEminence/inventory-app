@@ -1,0 +1,9 @@
+# Logs are written to stdout/stderr only (see backend/utils/logger.py)
+# and captured by Docker / Fluent Bit - nothing should write here, but
+# ignore it in case a local run creates it.
+logs/
+*.log
+
+__pycache__/
+*.pyc
+.env

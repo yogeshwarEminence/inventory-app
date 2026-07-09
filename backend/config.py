@@ -45,6 +45,9 @@ class Config:
     # CORS
     CORS_ORIGINS = os.getenv("CORS_ORIGINS", "*")
 
+    # Logging - DEBUG / INFO / WARNING / ERROR / CRITICAL. See utils/logger.py.
+    LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
     # Pagination defaults
     DEFAULT_PAGE_SIZE = 20
     MAX_PAGE_SIZE = 100
